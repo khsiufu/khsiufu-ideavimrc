@@ -1,0 +1,257 @@
+" 修改leader键
+let mapleader = ','
+
+"==========================================
+" Plug Settings 插件配置
+"==========================================
+set ideajoin
+set ideastatusicon=gray
+set idearefactormode=keep
+set ideamarks
+
+" 快速移动
+" easymotion {{{
+    let g:EasyMotion_smartcase = 1
+    "let g:EasyMotion_startofline = 0 " keep cursor colum when JK motion
+    map <Leader><leader>h <Plug>(easymotion-linebackward)
+    map <Leader><Leader>j <Plug>(easymotion-j)
+    map <Leader><Leader>k <Plug>(easymotion-k)
+    map <Leader><leader>l <Plug>(easymotion-lineforward)
+    " 重复上一次操作, 类似repeat插件, 很强大
+    map <Leader><leader>. <Plug>(easymotion-repeat)
+
+    set easymotion
+" }}}
+
+" nerdtree {{{
+    " open nerdtree with the current file selected
+    nmap ,t :NERDTreeFind<CR>
+
+    set NERDTree
+" }}}
+
+" argtextobj {{{
+    " daa: 删除这个参数，包括逗号
+    " dia: 删除这个参数，不包括逗号
+    " cia: 删除这个参数，不包括逗号，并进入编辑模式
+    " vaa: 选中这个参数，包括逗号
+
+    set argtextobj
+" }}}
+
+" surround {{{
+    " cs：修改文本目标两端的符号
+    " ds：删除文本目标两端的符号
+    " ys：在文本目标两端添加符号
+    " S：在visual 模式中在被选择文本两端添加符号
+
+    set surround
+" }}}
+
+"==========================================
+" Idea Mapping
+"==========================================
+
+" show git author & date & feat
+map <leader>a <Action>(Annotate)
+" set breakpoint
+map <leader>b <Action>(ToggleLineBreakpoint)
+" show file structure
+map <leader>d <Action>(FileStructurePopup)
+" open terminal
+map <leader>x <Action>(ActivateTerminalToolWindow)
+
+" rename
+nnoremap <leader>r :action RenameElement<CR>
+" quick java doc
+nnoremap <leader>q :action QuickJavaDoc<CR>
+" show error msg
+nnoremap <leader>e :action ShowErrorDescription<CR>
+
+" debug config
+" Goland Keymap 设定 Select Run/Debug Configuration 为 zs，可以方便选择配置
+nnoremap zd :action Debug<CR>
+nnoremap zr :action Run<CR>
+
+" 这挺好用，可以快速找到错误
+nnoremap zn :action GotoNextError<CR>
+
+"==========================================
+" General Settings 基础设置
+"==========================================
+
+" 突出显示当前行
+set cursorline
+" 显示当前的行号列号
+set ruler
+" 在状态栏显示正在输入的命令
+set showcmd
+" 左下角显示当前vim模式
+set showmode
+
+" 在上下移动光标时，光标的上方或下方至少会保留显示的行数
+set scrolloff=7
+
+" 显示行号
+set number
+" 取消换行
+set nowrap
+
+" 括号配对情况, 跳转并高亮一下匹配的括号
+set showmatch
+" How many tenths of a second to blink when matching brackets
+set matchtime=2
+
+" 设置文内智能搜索提示
+" 高亮search命中的文本
+set hlsearch
+" 打开增量搜索模式,随着键入即时搜索
+set incsearch
+" 搜索时忽略大小写
+set ignorecase
+" 有一个或以上大写字母时仍大小写敏感
+set smartcase
+
+" 缩进配置
+set smartindent
+" 打开自动缩进
+set autoindent
+
+" tab相关变更
+" 设置Tab键的宽度        [等同的空格个数]
+set tabstop=4
+" 每一次缩进对应的空格数
+set shiftwidth=4
+" 按退格键时可以一次删掉 4 个空格
+set softtabstop=4
+" insert tabs on the start of a line according to shiftwidth, not tabstop 按退格键时可以一次删掉 4 个空格
+set smarttab
+" 将Tab自动转化成空格[需要输入真正的Tab键时，使用 Ctrl+V + Tab]
+set expandtab
+" 缩进时，取整 use multiple of shiftwidth when indenting with '<' and '>'
+set shiftround
+
+" A buffer becomes hidden when it is abandoned
+set hidden
+set wildmode=list:longest
+set ttyfast
+
+" 00x增减数字时使用十进制
+set nrformats=
+
+" 相对行号: 行号变成相对，可以用 nj/nk 进行跳转
+set relativenumber number
+au FocusLost * :set norelativenumber number
+au FocusGained * :set relativenumber
+" 插入模式下用绝对行号, 普通模式下用相对
+autocmd InsertEnter * :set norelativenumber number
+autocmd InsertLeave * :set relativenumber
+function! NumberToggle()
+  if(&relativenumber == 1)
+    set norelativenumber number
+  else
+    set relativenumber
+  endif
+endfunc
+nnoremap <C-n> :call NumberToggle()<cr>
+
+"==========================================
+" HotKey Settings  自定义快捷键设置
+"==========================================
+
+" Go to home and end using capitalized directions
+noremap H ^
+noremap L $
+
+" Map ; to : and save a million keystrokes 用于快速进入命令行
+nnoremap ; :
+
+" 命令行模式增强，ctrl - a到行首， -e 到行尾
+cnoremap <C-a> <Home>
+cnoremap <C-e> <End>
+
+" 搜索相关
+" Map <Space> to / (search) and Ctrl-<Space> to ? (backwards search)
+map <space> /
+" 进入搜索Use sane regexes"
+nnoremap / /\v
+vnoremap / /\v
+
+" switch # *
+nnoremap # *
+nnoremap * #
+
+" normal模式下切换到确切的tab
+noremap <leader>1 1gt
+noremap <leader>2 2gt
+noremap <leader>3 3gt
+noremap <leader>4 4gt
+noremap <leader>5 5gt
+noremap <leader>6 6gt
+noremap <leader>7 7gt
+noremap <leader>8 8gt
+noremap <leader>9 9gt
+noremap <leader>0 :tablast<cr>
+
+" => 选中及操作改键
+" 调整缩进后自动选中，方便再次操作
+vnoremap < <gv
+vnoremap > >gv
+
+" y$ -> Y Make Y behave like other capitals
+map Y y$
+
+" 复制选中区到系统剪切板中
+vnoremap <leader>y "+y
+
+" select all
+map <Leader>sa ggVG
+
+" 选中并高亮最后一次插入的内容
+nnoremap gv `[v`]
+
+" select block
+nnoremap <leader>v V`}
+
+" w!! to sudo & write a file
+cmap w!! w !sudo tee >/dev/null %
+
+" kj 替换 Esc
+inoremap kj <Esc>
+
+" 滚动Speed up scrolling of the viewport slightly
+nnoremap <C-e> 2<C-e>
+nnoremap <C-y> 2<C-y>
+
+" Quickly close the current window
+nnoremap <leader>q :q<CR>
+
+" Quickly save the current file
+nnoremap <leader>w :w<CR>
+
+" 交换 ' `, 使得可以快速使用'跳到marked位置
+nnoremap ' `
+nnoremap ` '
+
+" remap U to <C-r> for easier redo
+nnoremap U <C-r>
+
+"==========================================
+" others 其它设置
+"==========================================
+
+" 离开插入模式后自动关闭预览窗口
+autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+
+" 回车即选中当前项
+inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
+
+" In the quickfix window, <CR> is used to jump to the error under the
+" cursor, so undefine the mapping there.
+autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
+" quickfix window  s/v to open in split window,  ,gd/,jd => quickfix window => open it
+autocmd BufReadPost quickfix nnoremap <buffer> v <C-w><Enter><C-w>L
+autocmd BufReadPost quickfix nnoremap <buffer> s <C-w><Enter><C-w>K
+
+" command-line window
+autocmd CmdwinEnter * nnoremap <buffer> <CR> <CR>
